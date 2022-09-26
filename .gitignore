@@ -1,0 +1,27 @@
+out
+dist
+node_modules
+.vscode-test/
+*.vsix
+
+*.bak
+*.gho
+*.ori
+*.orig
+*.tmp
+
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
+
+*.code-workspace
+
