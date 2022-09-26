@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:delete-seq-space.helloWorld"
+    "onCommand:deleteSequentialSpaces"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "delete-seq-space.helloWorld",
-        "title": "Hello World"
+        "command": "deleteSequentialSpaces",
+        "title": "Delete Sequential Spaces"
       }
     ]
   },
