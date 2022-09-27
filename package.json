@@ -10,13 +10,13 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:deleteSequentialSpaces"
+    "onCommand:extension.deleteSequentialSpaces"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "deleteSequentialSpaces",
+        "command": "extension.deleteSequentialSpaces",
         "title": "Delete Sequential Spaces"
       }
     ]

@@ -23,50 +23,45 @@ export function deleteSequentialSpaces( option?: any ) {
 
 	editor.edit( ( ed: vscode.TextEditorEdit ) => {
 		// カーソル箇所が普通文字ならカット、空白文字なら連続削除
-		/* 
-		if ( s is word ){
-			// 普通の文字はカット
-			ed.cut( s )
-		}else{
-			// 空白
-			if ( s is 改行 ){
-				// 改行を一つだけ削除
-				if ( 次の文字が空白 ){
-					// 空白が続く限り行末まで削除
-				}else{
-					// 普通の文字ならおわり
-				}
-			}else{
-				// 空白が続く限り行末まで削除
-				
-			}
-		}
-		*/
+
 		// 範囲選択、各選択箇所をカット
 		// 選択範囲は逆順に削除するべきでは
+		// 複数範囲指定には対応しなくていいのでは?でも複数行行頭空白削除とかやりたいか
 		editor.selections.forEach( selection => {
 
 			if ( selection.isEmpty ) {
-				// ed.delete( selection )
-				const pos = new vscode.Range( selection.start, new vscode.Position( selection.start.line, selection.start.character + 1 ) )
-				const char = editor.document.getText( pos );
+				const document = editor.document;
+				// カーソルの1文字
+
+				const pos = new vscode.Range( selection.active, selection.active.translate( 0, 1 ) );
+				const char = document.getText( pos );
 				if ( char == " " || char == "\t" ) {
-					// ed.delete( 正規表現で空白の連続を行末まで );
-					const spaceRange = editor.document.getWordRangeAtPosition( selection.start, seqSpaceReg )
-					if ( spaceRange ){
-						ed.delete( spaceRange )
+					// 次の単語までの連続した空白を削除
+					vscode.commands.executeCommand( 'deleteWordStartRight' );
+				} else if ( document.lineAt( selection.active ).range.end.character == selection.active.character ) {
+					// 行末
+
+					// 次行の1文字目が空白文字かを先に取っておく
+					let flagSpaceLetter = false;
+					if ( selection.active.line < document.lineCount - 1 ) {
+						const nextLineTopChar = document.lineAt( selection.active.line + 1 ).text.charCodeAt( 0 );
+						if ( nextLineTopChar == 9 || nextLineTopChar == 0x20 ) {
+							flagSpaceLetter = true;
+						}
 					}
-				} else if ( char == "\n" ) {
-					ed.delete( selection )
+
+					vscode.commands.executeCommand( 'deleteRight' );
+					if ( flagSpaceLetter ) {
+						vscode.commands.executeCommand( 'deleteWordStartRight' );
+
+					}
+
 				} else {
-					ed.delete( selection )
+					vscode.commands.executeCommand( 'deleteRight' );
 				}
 
 			} else {
-				// 範囲があればカット
-				// 	todo: 追記じゃなくて書き換えられている気がする
-				vscode.env.clipboard.writeText( editor.document.getText( selection ) );
-				ed.delete( selection )
+				vscode.commands.executeCommand( 'editor.action.clipboardCutAction' );
 			}
 		}
 		)
@@ -75,27 +70,6 @@ export function deleteSequentialSpaces( option?: any ) {
 
 
 }
-
-
-/*
-editor.selections.forEach( select => {
-	const target_range = select.isEmpty ?
-		( () => {
-			const line = editor.document.lineAt( select.start.line )
-			return new vscode.Range( line.range.start, line.range.end )
-		} )()
-		: new vscode.Range( select.start, select.end )
-	const text = editor.document.getText( target_range )
-	ed.replace( target_range, convert( text ) )
-} )
-} )
-	
-	
- }
-*/
-
-
-
 
 
 
