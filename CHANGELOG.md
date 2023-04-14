@@ -4,6 +4,6 @@ All notable changes to the "delete-seq-space" extension will be documented in th
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.0.2]
 
 - Initial release

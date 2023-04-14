@@ -3,6 +3,7 @@
   "displayName": "Delete Seq Space",
   "description": "Deletes consecutive whitespace.",
   "version": "0.0.2",
+  "publisher": "Matsuyanagi",
   "engines": {
     "vscode": "^1.77.0"
   },
